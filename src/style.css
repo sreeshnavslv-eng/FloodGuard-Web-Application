@@ -1,0 +1,249 @@
+:root {
+  font-family: system-ui, Avenir, Helvetica, Arial, sans-serif;
+}
+
+body {
+  margin: 0;
+  display: flex;
+  justify-content: center; /* center horizontally */
+  align-items: center; /* center vertically */
+  height: 100vh; /* full viewport height */
+  background: #000; /* optional */
+}
+
+/* UI overlay */
+.ui-overlay {
+  position: fixed;
+  inset: 0;
+  display: flex;
+  justify-content: flex-start;
+  align-items: flex-start;
+  pointer-events: none; /* allow game canvas interactions if needed */
+}
+
+.ui-card {
+  pointer-events: auto; /* re-enable for UI */
+  width: min(500px, 45vw);
+  margin: 20px;
+  background: linear-gradient(
+      45deg,
+      transparent 25%,
+      rgba(139, 69, 19, 0.1) 25%,
+      rgba(139, 69, 19, 0.1) 50%,
+      transparent 50%,
+      transparent 75%,
+      rgba(139, 69, 19, 0.1) 75%
+    ),
+    linear-gradient(
+      -45deg,
+      transparent 25%,
+      rgba(160, 82, 45, 0.08) 25%,
+      rgba(160, 82, 45, 0.08) 50%,
+      transparent 50%,
+      transparent 75%,
+      rgba(160, 82, 45, 0.08) 75%
+    ),
+    #2d1810;
+  background-size: 8px 8px, 12px 12px;
+  border: 3px solid #8b4513;
+  border-radius: 0px;
+  color: #d2b48c;
+  box-shadow: 0 0 10px rgba(139, 69, 19, 0.3);
+  font-family: "Courier New", monospace;
+  image-rendering: pixelated;
+  image-rendering: -moz-crisp-edges;
+  image-rendering: crisp-edges;
+  opacity: 0.95;
+  position: relative;
+}
+
+.farmer-icon {
+  position: absolute;
+  top: -30px;
+  right: -90px;
+  width: 160px;
+  height: 160px;
+  image-rendering: pixelated;
+  image-rendering: -moz-crisp-edges;
+  image-rendering: crisp-edges;
+  z-index: 10;
+}
+
+.ui-card .ui-title {
+  font-size: 20px;
+  line-height: 1.2;
+  font-weight: 700;
+  padding: 18px 20px 0 20px;
+  color: #cd853f;
+  text-shadow: 2px 2px 0px #000000;
+  font-family: "Courier New", monospace;
+}
+
+.ui-card .ui-subtitle {
+  font-size: 14px;
+  line-height: 1.4;
+  padding: 8px 20px 12px 20px;
+  color: #deb887;
+  text-shadow: 1px 1px 0px #000000;
+  font-family: "Courier New", monospace;
+}
+
+.answers-list {
+  list-style: none;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 15px;
+  padding: 0 16px 16px 16px;
+}
+
+.answer {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  background: linear-gradient(
+      30deg,
+      transparent 20%,
+      rgba(139, 69, 19, 0.15) 20%,
+      rgba(139, 69, 19, 0.15) 40%,
+      transparent 40%,
+      transparent 60%,
+      rgba(160, 82, 45, 0.1) 60%,
+      rgba(160, 82, 45, 0.1) 80%,
+      transparent 80%
+    ),
+    #3d2f1f;
+  background-size: 6px 6px;
+  border: 2px solid #8b4513;
+  border-radius: 0px;
+  padding: 20px 16px;
+  transition: background 0.2s ease, transform 0.06s ease, border-color 0.2s ease;
+  min-height: 140px;
+  font-family: "Courier New", monospace;
+}
+
+.answer:hover {
+  background: linear-gradient(
+      30deg,
+      transparent 20%,
+      rgba(139, 69, 19, 0.2) 20%,
+      rgba(139, 69, 19, 0.2) 40%,
+      transparent 40%,
+      transparent 60%,
+      rgba(160, 82, 45, 0.15) 60%,
+      rgba(160, 82, 45, 0.15) 80%,
+      transparent 80%
+    ),
+    #4a3c2a;
+  background-size: 6px 6px;
+  border-color: #cd853f;
+  transform: translateY(-1px);
+  box-shadow: 0 0 8px rgba(139, 69, 19, 0.4);
+}
+
+.answer button {
+  all: unset;
+  cursor: pointer;
+  flex: 1;
+  color: #deb887;
+  font-family: "Courier New", monospace;
+  text-shadow: 1px 1px 0px #000000;
+}
+
+.answer .option-key {
+  font-weight: 700;
+  color: #cd853f;
+  text-shadow: 2px 2px 0px #000000;
+  font-family: "Courier New", monospace;
+}
+
+.feedback {
+  margin: 8px 20px 0 20px;
+  font-weight: 600;
+  padding: 10px 12px;
+  border-radius: 0px;
+  font-family: "Courier New", monospace;
+  text-shadow: 1px 1px 0px #000000;
+}
+
+.feedback.success {
+  background: #3d2f1f;
+  color: #deb887;
+  border: 2px solid #8b4513;
+}
+
+.feedback.error {
+  background: #4d2f1f;
+  color: #cd853f;
+  border: 2px solid #8b4513;
+}
+
+.controls {
+  display: flex;
+  gap: 10px;
+  padding: 12px 16px 16px 16px;
+}
+
+.btn {
+  cursor: pointer;
+  border: 2px solid #8b4513;
+  border-radius: 0px;
+  padding: 10px 14px;
+  font-weight: 700;
+  color: #deb887;
+  transition: transform 0.06s ease, filter 0.2s ease, background 0.2s ease;
+  background: #2d1810;
+  font-family: "Courier New", monospace;
+  text-shadow: 1px 1px 0px #000000;
+}
+
+.btn:hover {
+  background: #3d2f1f;
+  border-color: #cd853f;
+  box-shadow: 0 0 8px rgba(139, 69, 19, 0.4);
+  transform: translateY(-1px);
+}
+.btn:active {
+  transform: translateY(0);
+}
+
+.btn-success {
+  background: #3d2f1f;
+  border-color: #8b4513;
+}
+.btn-danger {
+  background: #4d2f1f;
+  border-color: #8b4513;
+}
+
+/* Image-based answers prep */
+.answer .option-img {
+  width: 100px;
+  height: 100px;
+  border-radius: 0px;
+  background: #1b1f2a center/cover no-repeat;
+  flex: 0 0 100px;
+  border: 2px solid #8b4513;
+  image-rendering: pixelated;
+  image-rendering: -moz-crisp-edges;
+  image-rendering: crisp-edges;
+}
+
+/* Responsive design */
+@media (max-width: 768px) {
+  #gameCanvas {
+    border-width: 2px;
+    border-radius: 8px;
+  }
+
+  .ui-card {
+    width: min(680px, 95vw);
+    margin-top: 14px;
+  }
+  .ui-card .ui-title {
+    font-size: 20px;
+  }
+  .ui-card .ui-subtitle {
+    font-size: 15px;
+  }
+}

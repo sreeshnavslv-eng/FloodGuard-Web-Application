@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <!-- <link rel="icon" type="image/svg+xml" href="./vite.svg" /> -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content="FloodGuard India: protect a paddy harvest during monsoon flooding." />
+    <meta name="theme-color" content="#081b24" />
+    <title>FloodGuard India</title>
+    <style>
+      body {
+        margin: 0;
+        padding: 0;
+        background: #081b24;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100vh;
+        overflow: hidden;
+      }
+      canvas {
+        display: block;
+        margin: 0 auto;
+        cursor: pointer;
+        max-width: 100%;
+        max-height: 100%;
+        object-fit: contain;
+      }
+      /* Loading screen */
+      .loading {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: #0f0f23;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        color: #f4d58d;
+        font-family: Georgia, serif;
+        z-index: 9999;
+      }
+      .loading.hidden {
+        display: none;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="loading" id="loading">
+      <h2>FloodGuard India</h2>
+      <p>Loading the Kosi basin mission...</p>
+    </div>
+    <canvas id="gameCanvas"></canvas>
+    <script type="module" src="./src/main.js"></script>
+
+    <!-- Service Worker Registration - Optimized for deployment -->
+    <script>
+      if ("serviceWorker" in navigator) {
+        navigator.serviceWorker.register("./sw.js").catch(() => {});
+      }
+
+      // Hide loading screen when game starts
+      window.addEventListener("load", () => {
+        setTimeout(() => {
+          const loading = document.getElementById("loading");
+          if (loading && !loading.classList.contains("error")) {
+            loading.classList.add("hidden");
+          }
+        }, 800);
+      });
+    </script>
+  </body>
+</html>

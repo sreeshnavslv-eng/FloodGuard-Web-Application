@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Force Refresh - NASA Farming Game</title>
+    <style>
+      body {
+        margin: 0;
+        padding: 20px;
+        background: #0f0f23;
+        color: #00ff00;
+        font-family: "Courier New", monospace;
+        text-align: center;
+      }
+      .button {
+        background: #00ff00;
+        color: #000;
+        border: none;
+        padding: 15px 30px;
+        font-size: 16px;
+        cursor: pointer;
+        margin: 10px;
+        border-radius: 5px;
+      }
+      .button:hover {
+        background: #00cc00;
+      }
+      .status {
+        margin: 20px 0;
+        padding: 10px;
+        border: 1px solid #00ff00;
+        border-radius: 5px;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>🔄 Force Refresh - NASA Farming Game</h1>
+
+    <div class="status" id="status">
+      This will force clear all caches and reload the game with fresh content.
+    </div>
+
+    <button class="button" onclick="forceRefresh()">Force Refresh Game</button>
+    <button class="button" onclick="goToGame()">Go to Game</button>
+
+    <script>
+      async function forceRefresh() {
+        const status = document.getElementById("status");
+        status.innerHTML = "Clearing all caches and forcing refresh...";
+
+        try {
+          // Clear all caches
+          const cacheNames = await caches.keys();
+          await Promise.all(
+            cacheNames.map((cacheName) => {
+              console.log("Deleting cache:", cacheName);
+              return caches.delete(cacheName);
+            })
+          );
+
+          // Unregister service worker
+          if ("serviceWorker" in navigator) {
+            const registrations =
+              await navigator.serviceWorker.getRegistrations();
+            await Promise.all(
+              registrations.map((registration) => registration.unregister())
+            );
+          }
+
+          status.innerHTML = "✅ All caches cleared! Redirecting to game...";
+          status.style.color = "#00ff00";
+
+          // Force reload to game with cache busting
+          setTimeout(() => {
+            window.location.href = "/?v=" + Date.now();
+          }, 2000);
+        } catch (error) {
+          status.innerHTML = "❌ Error: " + error.message;
+          status.style.color = "#ff4444";
+        }
+      }
+
+      function goToGame() {
+        window.location.href = "/?v=" + Date.now();
+      }
+    </script>
+  </body>
+</html>

@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Clear Cache - NASA Farming Game</title>
+    <style>
+      body {
+        margin: 0;
+        padding: 20px;
+        background: #0f0f23;
+        color: #00ff00;
+        font-family: "Courier New", monospace;
+        text-align: center;
+      }
+      .button {
+        background: #00ff00;
+        color: #000;
+        border: none;
+        padding: 15px 30px;
+        font-size: 16px;
+        cursor: pointer;
+        margin: 10px;
+        border-radius: 5px;
+      }
+      .button:hover {
+        background: #00cc00;
+      }
+      .status {
+        margin: 20px 0;
+        padding: 10px;
+        border: 1px solid #00ff00;
+        border-radius: 5px;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>🧹 Clear Cache - NASA Farming Game</h1>
+
+    <div class="status" id="status">
+      Click the button below to clear all caches and force reload the game.
+    </div>
+
+    <button class="button" onclick="clearAllCaches()">Clear All Caches</button>
+    <button class="button" onclick="goToGame()">Go to Game</button>
+
+    <script>
+      async function clearAllCaches() {
+        const status = document.getElementById("status");
+        status.innerHTML = "Clearing caches...";
+
+        try {
+          // Clear all caches
+          const cacheNames = await caches.keys();
+          await Promise.all(
+            cacheNames.map((cacheName) => {
+              console.log("Deleting cache:", cacheName);
+              return caches.delete(cacheName);
+            })
+          );
+
+          // Unregister service worker
+          if ("serviceWorker" in navigator) {
+            const registrations =
+              await navigator.serviceWorker.getRegistrations();
+            await Promise.all(
+              registrations.map((registration) => registration.unregister())
+            );
+          }
+
+          status.innerHTML =
+            "✅ All caches cleared! Service worker unregistered.";
+          status.style.color = "#00ff00";
+
+          // Reload the page
+          setTimeout(() => {
+            window.location.href = "/";
+          }, 2000);
+        } catch (error) {
+          status.innerHTML = "❌ Error clearing caches: " + error.message;
+          status.style.color = "#ff4444";
+        }
+      }
+
+      function goToGame() {
+        window.location.href = "/";
+      }
+    </script>
+  </body>
+</html>

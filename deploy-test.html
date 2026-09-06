@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Deployment Test - NASA Farming Game</title>
+    <style>
+      body {
+        margin: 0;
+        padding: 20px;
+        background: #0f0f23;
+        color: #00ff00;
+        font-family: "Courier New", monospace;
+      }
+      .test-item {
+        margin: 10px 0;
+        padding: 10px;
+        border: 1px solid #00ff00;
+        border-radius: 5px;
+      }
+      .success {
+        color: #00ff00;
+      }
+      .error {
+        color: #ff4444;
+      }
+      .warning {
+        color: #ffaa00;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>🌱 NASA Farming Game - Deployment Test</h1>
+    <div id="test-results"></div>
+
+    <script>
+      const results = document.getElementById("test-results");
+
+      function addTest(name, status, message) {
+        const div = document.createElement("div");
+        div.className = `test-item ${status}`;
+        div.innerHTML = `<strong>${name}:</strong> ${message}`;
+        results.appendChild(div);
+      }
+
+      // Test 1: Check if main assets exist
+      const criticalAssets = [
+        "./assets/introbg.jpg",
+        "./assets/farmerr.png",
+        "./assets/click.mp3",
+        "./assets/sound/main_soundtrack.mp3",
+      ];
+
+      let assetsLoaded = 0;
+      criticalAssets.forEach((asset) => {
+        const img = new Image();
+        img.onload = () => {
+          assetsLoaded++;
+          if (assetsLoaded === criticalAssets.length) {
+            addTest(
+              "Critical Assets",
+              "success",
+              "All critical assets loaded successfully"
+            );
+          }
+        };
+        img.onerror = () => {
+          addTest("Critical Assets", "error", `Failed to load: ${asset}`);
+        };
+        img.src = asset;
+      });
+
+      // Test 2: Check Phaser availability
+      if (typeof Phaser !== "undefined") {
+        addTest("Phaser Library", "success", "Phaser is available");
+      } else {
+        addTest("Phaser Library", "error", "Phaser is not loaded");
+      }
+
+      // Test 3: Check canvas element
+      const canvas = document.getElementById("gameCanvas");
+      if (canvas) {
+        addTest("Canvas Element", "success", "Game canvas found");
+      } else {
+        addTest("Canvas Element", "error", "Game canvas not found");
+      }
+
+      // Test 4: Check viewport
+      addTest(
+        "Viewport",
+        "success",
+        `Size: ${window.innerWidth}x${window.innerHeight}`
+      );
+
+      // Test 5: Check HTTPS
+      if (location.protocol === "https:") {
+        addTest("HTTPS", "success", "Running on HTTPS");
+      } else {
+        addTest(
+          "HTTPS",
+          "warning",
+          "Running on HTTP (may cause issues with some assets)"
+        );
+      }
+
+      // Test 6: Check service worker
+      if ("serviceWorker" in navigator) {
+        addTest("Service Worker", "success", "Service Worker supported");
+      } else {
+        addTest("Service Worker", "warning", "Service Worker not supported");
+      }
+    </script>
+  </body>
+</html>

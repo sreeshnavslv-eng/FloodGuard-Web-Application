@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Simple Phaser Test</title>
+    <style>
+      body {
+        margin: 0;
+        padding: 0;
+        background: #000;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100vh;
+        overflow: hidden;
+      }
+      canvas {
+        display: block;
+        margin: 0 auto;
+        cursor: pointer;
+      }
+    </style>
+  </head>
+  <body>
+    <canvas id="gameCanvas"></canvas>
+
+    <script type="module">
+      import Phaser from "https://cdn.jsdelivr.net/npm/phaser@3.70.0/dist/phaser.esm.js";
+
+      class TestScene extends Phaser.Scene {
+        constructor() {
+          super({ key: "TestScene" });
+        }
+
+        preload() {
+          console.log("Test scene preload started");
+          this.load.image("bg", "./assets/introbg.jpg");
+          this.load.image("farmer", "./assets/farmerr.png");
+
+          this.load.on("complete", () => {
+            console.log("Assets loaded successfully");
+          });
+
+          this.load.on("loaderror", (file) => {
+            console.error("Failed to load:", file.key, file.url);
+          });
+        }
+
+        create() {
+          console.log("Test scene create() called");
+
+          const centerX = this.sys.game.config.width / 2;
+          const centerY = this.sys.game.config.height / 2;
+
+          // Add background
+          this.add.image(centerX, centerY, "bg").setOrigin(0.5);
+
+          // Add farmer
+          this.add
+            .image(centerX, centerY, "farmer")
+            .setOrigin(0.5)
+            .setScale(0.5);
+
+          // Add text
+          this.add
+            .text(centerX, centerY + 200, "Test Scene Working!", {
+              fontSize: "32px",
+              color: "#00ff00",
+              fontFamily: "Arial",
+            })
+            .setOrigin(0.5);
+
+          console.log("Test scene created successfully");
+        }
+      }
+
+      const config = {
+        type: Phaser.AUTO,
+        width: 800,
+        height: 600,
+        canvas: document.getElementById("gameCanvas"),
+        backgroundColor: "#0f0f23",
+        scene: [TestScene],
+      };
+
+      try {
+        const game = new Phaser.Game(config);
+        console.log("Game created successfully");
+      } catch (error) {
+        console.error("Game creation failed:", error);
+      }
+    </script>
+  </body>
+</html>
