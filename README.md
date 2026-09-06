@@ -70,9 +70,6 @@ This game supports sustainable agriculture, environmental science, and STEM lear
 
 Contributions are welcome! Please feel free to submit issues and pull requests.
 
-## 📄 License
-
-This project is part of NASA's educational initiatives. Please check with NASA for specific licensing terms.
 
 ## 🙏 Acknowledgments
 
