@@ -1,0 +1,78 @@
+FLOODGUARD INDIA
+Technical and Social Impact Presentation Write-up
+
+1. Introduction
+
+FloodGuard India is an interactive browser-based educational game designed to teach players about monsoon flooding, agricultural vulnerability, and practical flood-response actions. The application places the player in a farming scenario in India's Kosi Basin in Bihar. Instead of presenting climate change and flood resilience only as written information, the game turns the topic into a short, interactive mission. The player must understand the situation, move a farmer around a flooded agricultural area, collect a useful resource, and apply that resource to vulnerable parts of the farm.
+
+The central idea is that people learn more effectively when they can see a problem, make a decision, and observe the result of that decision. FloodGuard India therefore uses a game-based learning approach. It does not attempt to predict floods or replace official emergency services. Its purpose is to build awareness and basic understanding of how heavy rainfall, saturated soil, overflowing rivers, drainage limitations, and low-lying farmland can combine to create serious agricultural damage.
+
+2. Intent and Problem Statement
+
+Flooding is both an environmental and social problem. It can destroy crops, damage homes and infrastructure, contaminate water, interrupt transportation, and reduce the income and food security of farming communities. The effects are especially serious for rural populations whose livelihoods depend directly on seasonal agriculture. Although many people have heard about climate change and floods, the connection between extreme rainfall and everyday farming decisions is not always easy to understand.
+
+FloodGuard India addresses this communication and education gap. Its intent is to make flood resilience understandable through a simple interactive experience. The player sees a farm in danger, receives an explanation of why flooding happens, and then completes two practical response-oriented tasks. In the first level, the player protects vulnerable paddy plots using straw mats. In the second level, the player places drainage pipes on flooded areas. These actions are simplified representations of agricultural protection and recovery measures. The simplified format makes the lesson approachable for school students, general audiences, and people who may not have a technical background in environmental science.
+
+The application also emphasizes that safety comes first. The introduction explains that people should use early warnings, move people and animals to higher ground, and avoid entering fast-moving floodwater. This is important because a game about protecting crops should not accidentally suggest that people should take unnecessary risks during a real emergency.
+
+3. User Experience and Game Flow
+
+The application begins with a loading screen titled FloodGuard India. After the game loads, the player sees an introduction panel explaining the causes of monsoon flooding. The explanation covers intense rainfall, saturated ground, rising streams and rivers, drainage limitations, and the damage floodwater can cause to crops and fertile soil. The introduction then establishes the setting: the Kosi Basin in Bihar and a farmer who needs help protecting three paddy plots.
+
+The player can begin the mission through an on-screen button or by pressing the Space key. Level 1 is called Save the Paddy Harvest. Three red target zones represent vulnerable paddy plots. A straw mat is placed near the farmer's starting area. The player moves the farmer to the straw mat, picks it up, and takes it to each danger zone. When the farmer is close enough to a target, the target can be covered. The counter updates from zero to three zones, and completed targets change from red to green with a SAFE label. When all three targets are protected, the player receives a completion message.
+
+Level 2 is called Flood Recovery. The background changes to a flooded farmland image, and four blue target zones represent areas where water has accumulated. The straw resource is replaced by a drainage pipe. The player repeats the movement and interaction process, collecting the pipe and placing it on each flooded area. The blue zones change to green as they are completed. After all four areas are handled, the game displays a final success message explaining that the floodwaters have been drained and the crops can recover. The player can also replay the second level.
+
+This progression provides a simple narrative structure: understand the hazard, protect the crops before further damage occurs, and then recover from flooding. The player learns through repeated actions rather than through passive reading alone.
+
+4. Technology Stack
+
+FloodGuard India is implemented as a static web application. The main technologies are HTML5, JavaScript, CSS3, and Phaser 3.70.0. The game engine is loaded as an ES module from the jsDelivr CDN. The use of a CDN avoids the need for a complex local build process and allows the project to run by serving the repository root with a normal web server.
+
+The main HTML file creates the game canvas and includes the module entry point. It also defines a loading screen, responsive viewport metadata, a dark background, and a service-worker registration. The JavaScript entry point configures Phaser with a 1280 by 720 logical game area. Phaser's FIT scale mode preserves the game's aspect ratio while adapting the canvas to different browser sizes. CENTER_BOTH keeps the game centered on desktop and mobile screens.
+
+The game currently uses one primary scene, IndiaFloodScene, which manages the introduction, both levels, interface elements, movement, targets, resources, and victory states. The scene uses Phaser's preload method to load local images, including farm backgrounds, the flooded farmland background, an Indian farmer sprite, a straw mat, and a drainage pipe. Audio and many additional visual assets are also included in the repository for the broader project and future expansion.
+
+5. Game Logic and Interaction Design
+
+The game logic is based on a small state machine. The introVisible flag controls whether the player is still viewing the educational introduction. The level value identifies Level 1 or Level 2. The levelComplete flag controls the completion overlay and transition behavior. When a level starts, the game resets the saved counter, creates the mission user interface, initializes controls, places the target zones, and spawns the appropriate resource.
+
+Targets are generated from relative horizontal positions so that the layout can adapt to the configured game width. Level 1 creates three paddy plots, while Level 2 creates four flooded areas. Each target stores its position, visual zone, label, and covered status. The game checks the distance between the farmer and the resource or target by using Phaser.Math.Distance.Between. If the farmer is close enough, the resource can be picked up or the target can be completed. Phaser.Math.Clamp prevents the farmer from leaving the playable area.
+
+The player can use arrow keys or WASD. The Space key handles pickup and placement interactions. The interface also includes visible directional buttons that work as pointer controls, providing a touch-friendly alternative. The control instructions are displayed at the bottom of the game screen so that the player does not need to remember the controls from a separate instruction page.
+
+Visual feedback is an important part of the design. Target areas pulse with a tween animation to attract attention. The introduction and mission panels use contrasting colors to distinguish explanations, danger zones, and successful areas. The game uses background overlays, animated water ripples, and changing target colors to communicate the changing state of the environment. These features support the learning objective because players can immediately see whether their action has helped.
+
+6. Data, Assets, and Deployment
+
+The repository contains local image, audio, video, and data assets. These include agricultural backgrounds, crop imagery, farmer sprites, sound effects, music, flood visuals, and map-related files. The project also contains JSON and geospatial-related resources that can support more data-driven environmental features in future versions. The current playable India scene uses fixed target positions and visual scenario design, which keeps the experience reliable and easy to understand.
+
+A service worker is included to cache critical files such as the main HTML document, the game entry point, and selected assets. This improves repeat-load performance and provides a fallback path when a previously visited page cannot reach the network. JavaScript files are fetched from the network when possible so that updated game logic can be received instead of remaining permanently stale in a cache.
+
+Because the project is static, it can be hosted on GitHub Pages, Netlify, Vercel, or another server that serves index.html. It does not require a database, login system, server-side API, or application server. This reduces hosting cost and makes the application easy to distribute in classrooms, demonstrations, exhibitions, and community education programs.
+
+7. Educational Value
+
+The game supports learning in environmental science, geography, agriculture, climate adaptation, and basic computer science. It introduces the idea that flooding is not only a weather event; it is also influenced by land elevation, soil saturation, drainage, river systems, and preparedness. It connects a large global issue to a specific local setting and a familiar human concern: protecting a harvest.
+
+The game also demonstrates important computational concepts. Players experience sequential problem solving, resource management, movement control, collision or distance detection, state changes, counters, feedback, and level progression. In this way, the application can be used both as an environmental education tool and as an example of interactive software development.
+
+8. Social Impact
+
+FloodGuard India's potential social impact comes from making flood preparedness more understandable and memorable. A short interactive activity can help students discuss why floods happen, why crops are vulnerable, and why recovery requires planning. It can encourage conversations about early warning systems, safe evacuation, resilient agriculture, drainage, soil protection, and community preparedness.
+
+The application is also accessible in practical ways. It runs in a web browser, requires no installation, supports keyboard controls, and includes pointer-based controls for touch-capable devices. Since it is static-hosting ready, it can be shared through a simple link. This makes it suitable for classrooms, science fairs, digital learning programs, environmental campaigns, and public demonstrations.
+
+The game should be viewed as an awareness and learning tool rather than a complete disaster-management solution. Real flood resilience also requires reliable weather and river monitoring, public warning systems, strong infrastructure, evacuation planning, agricultural extension services, insurance, local government coordination, and community knowledge. The game can contribute to awareness, but it cannot provide real-time safety instructions or replace emergency authorities.
+
+9. Future Development
+
+Future versions could add multiple languages, including Hindi and regional languages used in flood-prone communities. The game could include different difficulty levels, more realistic crop and soil conditions, and branching decisions involving evacuation, livestock, stored grain, and water contamination. Real satellite or rainfall datasets could be connected to a separate educational visualization mode, while keeping the core game simple for younger players.
+
+Other useful additions would include player progress tracking without collecting sensitive personal data, teacher discussion guides, accessibility improvements such as text-to-speech and remappable controls, and a post-level explanation connecting each game action to a real resilience practice. A more advanced version could also compare different adaptation choices and show their costs, benefits, and limitations.
+
+10. Conclusion
+
+FloodGuard India is a focused educational game that combines interactive storytelling, browser technology, and environmental awareness. Its main intent is to help people understand the consequences of monsoon flooding on agriculture and to introduce basic protection and recovery actions in a safe, memorable format. Technically, it uses HTML5, JavaScript, CSS3, Phaser 3.70.0, local media assets, responsive canvas scaling, keyboard and pointer input, animated visual feedback, and service-worker caching.
+
+The project demonstrates how software can translate a complex social and environmental issue into an experience that users can explore directly. By protecting paddy plots and draining flooded areas, players build a simple mental model of risk, response, and recovery. With further development, multilingual content, real environmental data, accessibility features, and classroom support could increase its reach. In its current form, FloodGuard India provides a practical foundation for climate education and a clear example of how game technology can support public understanding of disaster resilience.
