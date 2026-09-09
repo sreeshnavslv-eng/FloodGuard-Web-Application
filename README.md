@@ -55,8 +55,6 @@ test_farmy/
 ```
 
 ## 🎯 Game Features
-
-- **Interactive Storytelling:** Follow Henry's farming journey
 - **Educational Content:** Learn a simple flood-protection response
 - **Focused Scenario:** India monsoon flooding and crop protection
 - **Responsive Design:** Works on desktop and mobile devices
@@ -72,7 +70,5 @@ Contributions are welcome! Please feel free to submit issues and pull requests.
 
 
 ## 🙏 Acknowledgments
-
-- NASA for educational resources and satellite data
 - Phaser.js community for the excellent game engine
 - Agricultural experts who provided real-world scenarios
